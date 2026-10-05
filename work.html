@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selected Work | Draft &amp; Hue Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fredoka:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body data-page="work">
+  <script>
+    // Applies saved accessibility preferences immediately, before the page paints,
+    // so returning visitors don't see a flash of the default (unstyled) look.
+    (function () {
+      try {
+        var prefs = JSON.parse(localStorage.getItem("a11yPrefs") || "{}");
+        var root = document.documentElement;
+        if (prefs.textSize && prefs.textSize !== "normal") root.setAttribute("data-textsize", prefs.textSize);
+        if (prefs.highContrast) root.classList.add("a11y-contrast");
+        if (prefs.reduceMotion) root.classList.add("a11y-reduce-motion");
+        if (prefs.underlineLinks) root.classList.add("a11y-underline");
+      } catch (err) { /* private browsing / storage blocked — just use the defaults */ }
+
+      // Opening screen: shown once per visit (add ?loader to the address to see it again).
+      // Skipped when the visitor prefers reduced motion.
+      try {
+        var html = document.documentElement;
+        var seen = sessionStorage.getItem("loaderSeen");
+        var forced = /[?&]loader(=|&|$)/.test(location.search);
+        var calm = (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || html.classList.contains("a11y-reduce-motion");
+        if ((!seen || forced) && !calm) html.classList.add("loader-on");
+      } catch (err) { /* storage blocked — no opening screen */ }
+    })();
+  </script>
+
+  <!-- ===== OPENING SCREEN (see section 11 in script.js) ===== -->
+  <div class="loader" id="loader" role="status" aria-label="Loading">
+    <span class="loader-glow loader-glow--green" aria-hidden="true"></span>
+    <span class="loader-glow loader-glow--blue" aria-hidden="true"></span>
+    <div class="flip-pill" id="loaderPill" aria-hidden="true">
+      <span class="flip-word" id="loaderWord"></span>
+    </div>
+  </div>
+
+  <!-- ===== FLOATING SIDEBAR NAV ===== -->
+  <nav class="dock" id="dock" aria-label="Primary">
+    <div class="dock-brand">
+      <a href="index.html" class="dock-logo" aria-label="Home">
+        <img src="images/logo-icon.png" alt="Draft & Hue Studio">
+      </a>
+      <p class="dock-name">Danielle Hynes Sutin</p>
+      <p class="dock-handle">@draftnhue</p>
+    </div>
+
+    <div class="dock-socials">
+      <a href="https://www.instagram.com/draftnhue" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61593816549784" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+      <a href="https://www.fiverr.com/hynes_" target="_blank" rel="noopener" aria-label="Fiverr"><span class="fiverr-mark" aria-hidden="true">fi</span></a>
+    </div>
+
+    <hr class="dock-rule">
+
+    <ul class="dock-links">
+      <li><a href="index.html" data-dock="home"><i class="ph ph-house"></i><span>Home</span></a></li>
+      <li><a href="work.html" data-dock="work"><i class="ph ph-briefcase"></i><span>Work</span></a></li>
+      <li><a href="services.html" data-dock="services"><i class="ph ph-squares-four"></i><span>Services</span></a></li>
+      <li><a href="about.html" data-dock="about"><i class="ph ph-user"></i><span>About</span></a></li>
+      <li><a href="contact.html" data-dock="contact"><i class="ph ph-envelope-simple"></i><span>Contact</span></a></li>
+    </ul>
+
+    <div class="dock-foot">
+      <button type="button" class="dock-a11y" id="a11yToggle" aria-haspopup="dialog" aria-expanded="false" aria-label="Accessibility settings">
+        <i class="ph ph-person-simple-circle"></i>
+      </button>
+      <p class="dock-copy">© 2026 Danielle Hynes Sutin. <br> All rights reserved.</p> 
+    </div>
+  </nav>
+
+  <!-- Mobile and tablet top bar: the floating sidebar hides below 960px and this takes its place -->
+  <header class="mobile-bar">
+    <a href="index.html" class="mobile-bar-logo" aria-label="Home">
+      <img src="images/logo-icon.png" alt="Draft & Hue Studio">
+    </a>
+    <div class="mobile-bar-actions">
+      <button type="button" class="mobile-bar-a11y" id="a11yToggleMobile" aria-haspopup="dialog" aria-expanded="false" aria-label="Accessibility settings">
+        <i class="ph ph-person-simple-circle"></i>
+      </button>
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <i class="ph ph-list"></i>
+      </button>
+    </div>
+  </header>
+
+  <nav class="nav" id="mobileNav" aria-label="Mobile">
+    <ul>
+      <li><a href="index.html" data-dock="home"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="work.html" data-dock="work"><i class="ph ph-briefcase"></i>Work</a></li>
+      <li><a href="services.html" data-dock="services"><i class="ph ph-squares-four"></i>Services</a></li>
+      <li><a href="about.html" data-dock="about"><i class="ph ph-user"></i>About</a></li>
+      <li><a href="contact.html" data-dock="contact"><i class="ph ph-envelope-simple"></i>Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== ACCESSIBILITY PANEL ===== -->
+  <div class="a11y-overlay" id="a11yOverlay" hidden></div>
+  <div class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Accessibility settings">
+    <div class="a11y-head">
+      <h2>Accessibility</h2>
+      <button type="button" class="a11y-close" id="a11yClose" aria-label="Close accessibility settings">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+
+    <p class="a11y-label">Text size</p>
+    <div class="a11y-textsize" role="group" aria-label="Text size">
+      <button type="button" class="is-active" data-textsize="normal">A</button>
+      <button type="button" data-textsize="large">A+</button>
+      <button type="button" data-textsize="xlarge">A++</button>
+    </div>
+
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">High contrast</p>
+        <p class="a11y-row-desc">Darker text, stronger edges</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleContrast" role="switch" aria-checked="false"><span></span></button>
+    </div>
+
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">Reduce motion</p>
+        <p class="a11y-row-desc">No animation or drifting</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleMotion" role="switch" aria-checked="false"><span></span></button>
+    </div>
+
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">Underline links</p>
+        <p class="a11y-row-desc">Every link gets a line</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleUnderline" role="switch" aria-checked="false"><span></span></button>
+    </div>
+
+    <button type="button" class="a11y-reset" id="a11yReset">
+      <i class="ph ph-arrow-counter-clockwise"></i> Reset to default
+    </button>
+  </div>
+
+
+  <!-- ===== WORK ===== -->
+  <section class="work" id="work">
+    <header class="page-head">
+      <p class="eyebrow">Work</p>
+      <h1>Selected projects.</h1>
+      <p class="page-sub">A mix of client output, event illustrations, and committee works.</p>
+    </header>
+
+    <!-- Category buttons. Each data-filter must match a card's data-category ("all" shows everything). -->
+    <div class="filters" role="group" aria-label="Filter work by category">
+      <button class="filter-btn is-active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" data-filter="LOGOS" aria-pressed="false">Logos</button>
+      <button class="filter-btn" data-filter="POSTERS" aria-pressed="false">Posters</button>
+      <button class="filter-btn" data-filter="PROFILE FRAMES" aria-pressed="false">DP Frames</button>
+      <button class="filter-btn" data-filter="SOCIAL MEDIA ASSETS" aria-pressed="false">Social Media Assets</button>
+      <button class="filter-btn" data-filter="MERCHANDISE" aria-pressed="false">Merchandise</button>
+    </div>
+
+    <div class="grid">
+        <figure class="card" data-category="LOGOS" data-id="logo-one">
+        <div class="card-images">
+          <img src="images/patingpalak logo no bg.png" alt="Patingpalak Logo 1">
+          <!-- Add extra images here for multi-image sliders -->
+          <!-- <img src="images/patingpalak-2.jpg" alt="Patingpalak Logo 2"> -->
+        </div>
+        <figcaption>
+          <h3>Patingpalak Event (Official Event Logo)</h3>
+          <p class="card-meta"><span class="meta-category">Logo design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed as the official brand identity for the College of Health Sciences' annual college days at Mindanao State University - Iligan Institute of Technology. Built around the event's core theme, this dynamic visual identity was implemented across all official event collateral, including trophies, certificates, and promotional media.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="LOGOS" data-id="logo-two">
+        <div class="card-images">
+          <img src="images/mx logo without bg copy.png" alt="MX CHS Logo">
+        </div>
+        <figcaption>
+          <h3>MX CHS</h3>
+          <p class="card-meta"><span class="meta-category">Logo design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">The flagship visual identity for the College of Health Sciences' flagship pageant. Crafted to convey prestige, elegance, and distinction, this logo served as the central brand mark celebrating the college's student ambassadors and crown winners.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="LOGOS" data-id="logo-three">
+        <div class="card-images">
+          <img src="images/aman logo 2 copy.png" alt="Aman Sinaya House Logo">
+          <img src="images/best logo 2025.jpg" alt="Aman Sinaya House Logo">
+        </div>
+        <figcaption>
+          <h3>Aman Sinaya House</h3>
+          <p class="card-meta"><span class="meta-category">Logo design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">A custom house identity designed for the Aman Sinaya house during the Patingpalak 2025 event. Conceptually built around the distinct characteristics and spirit of the house, this piece won <b>Best Logo</b> in the inter-house competition.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="PROFILE FRAMES" data-id="profile-frame-one">
+        <div class="card-images">
+          <img src="images/dp blast trial FINAL FRFR copy.png" alt="DP Frame design project">
+          <img src="images/dp blast trial ft asawa q copy.png" alt="DP Frame design project">
+        </div>
+        <figcaption>
+          <h3>Aman Sinaya Campaign Frame</h3>
+          <p class="card-meta"><span class="meta-category">Profile Picture Frame Design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed as a campaign DP frame for the Aman Sinaya House during the Patingpalak 2025 event. Built to boost house exposure and foster student engagement, this framing layout created a unified digital presence across social media platforms throughout the competition.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="LOGOS" data-id="logo-four">
+        <div class="card-images">
+          <img src="images/fdraft1 copy.png" alt="Logo design project">
+        </div>
+        <figcaption>
+          <h3>Casa De La Memoria House</h3>
+          <p class="card-meta"><span class="meta-category">Logo design</span> · <span class="meta-year">2026</span></p>
+          <p class="card-desc">A custom house identity designed for the Casa De La Memoria house during the Patingpalak 2026 event. Conceptually built around the distinct characteristics and spirit of the house.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="LOGOS" data-id="logo-four">
+        <div class="card-images">
+          <img src="images/bc.png" alt="Logo design project">
+          <img src="images/bc 1.png" alt="Logo design project">
+          <img src="images/BluCup Brandkit copy.png" alt="Logo design project">
+        </div>
+        <figcaption>
+          <h3> Business Logo and Branding Identity </h3>
+          <p class="card-meta"><span class="meta-category">Logo design</span> · <span class="meta-year">2026</span></p>
+          <p class="card-desc">A complete brand identity and visual kit designed for Blu Cup, a local banana pudding venture operating through soon-to-be stalls and online ordering.
+
+Anchored by a vibrant royal blue palette, this branding pairs playful custom hand-lettering with an expressive cup character mascot to establish a clean, aesthetic visual presence. The kit includes versatile logo lockups, primary color schemes, typography guidelines, brand pattern designs, and packaging mockups engineered for seamless application across physical signage, containers, and digital storefronts.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="PROFILE FRAMES" data-id="profile-frame-two"> 
+        <div class="card-images">
+          <img src="images/Untitled design (6).png" alt="Profile Picture Frame design project">
+          <img src="images/2 copy 2.png" alt="Profile Picture Frame design project">
+          <img src="images/1 copy 2.png" alt="Profile Picture Frame design project">
+        </div>
+        <figcaption>
+          <h3>Casa De La Memoria Campaign Frame</h3>
+          <p class="card-meta"><span class="meta-category">Profile Picture Frame</span> · <span class="meta-year">2026</span></p>
+          <p class="card-desc">Designed as a campaign DP frame for the Casa De La Memoria House during the Patingpalak 2026 event. Built to boost house exposure and foster student engagement, this framing layout created a unified digital presence across social media platforms throughout the competition.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="POSTERS" data-id="poster-one">
+        <div class="card-images">
+          <img src="images/CAPSTONE PROJECT POSTER.png" alt="Poster design project">
+        </div>
+        <figcaption>
+          <h3>Capstone Project Poster</h3>
+          <p class="card-meta"><span class="meta-category">Poster design</span> · <span class="meta-year">2026</span></p>
+          <p class="card-desc">Designed an official poster for a capstone research project conducted within our academic college. The layout was structured to clearly present key findings, methodology, and visuals, ensuring academic clarity and professional aesthetics. The poster was successfully used for reporting to the college, representing the research team and their work in a polished and impactful manner. </p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="POSTERS" data-id="poster-two">
+        <div class="card-images">
+          <img src="images/d2 poster.jpg" alt="AD Poster design project">
+          <img src="images/d2 poster 2.png" alt="AD Poster design project">
+          <img src="images/d2 poster 3.jpg" alt="AD Poster design project">
+        </div>
+        <figcaption>
+          <h3>Apparel Business Poster</h3>
+          <p class="card-meta"><span class="meta-category">Poster design</span> · <span class="meta-year">2023</span></p>
+          <p class="card-desc">Designed a high impact promotional poster for client's signature graphic hoodie.
+ Paired high-contrast urban visuals, as requested, with bold hero typography and callout elements to drive social media and e-commerce conversions.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="POSTERS" data-id="poster-three">
+        <div class="card-images">
+          <img src="images/bluestraight 1.png" alt="AD Poster design project">
+          <img src="images/bluestraight 2.png" alt="AD Poster design project">
+          <img src="images/bluestraight 3.png" alt="AD Poster design project">
+        </div>
+        <figcaption>
+          <h3>Merchendise Marketing Poster and Menu</h3>
+          <p class="card-meta"><span class="meta-category">Poster design</span> · <span class="meta-year">2023</span></p>
+          <p class="card-desc">A high-impact merchandise marketing poster and menu designed for the band Blue Straight. Featuring a striking dark background, bold gothic script, and vibrant storybook style back print artworksizing, and web store details in a clean, e-commerce ready layout perfect for online promotion and concert venue displays.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="SOCIAL MEDIA ASSETS" data-id="social-media-asset-one">
+        <div class="card-images">
+          <img src="images/editgo temp.png" alt="Social media asset design project">
+          <img src="images/editgo temp 2.png" alt="Social media asset design project">
+          <img src="images/editgo temp 3.png" alt="Social media asset design project">
+        </div>
+        <figcaption>
+          <h3>Social Media Asset Templates</h3>
+          <p class="card-meta"><span class="meta-category">Social media asset design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed a set of customizable social media templates for a client offering on-the-go editing courses. The assets were created to help them easily share upcoming webinars, promotions, team highlights, and course details while maintaining a cohesive brand identity across platforms.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="MERCHANDISE" data-id="Merchandise-five">
+        <div class="card-images">
+          <img src="images/chs shirt.png" alt="Merchandise design project">
+          <img src="images/Person 1 Back.png" alt="Merchandise design project">
+          <img src="images/Person 1 Front.png" alt="Merchandise design project">
+          <img src="images/back copy.png" alt="Merchandise design project">
+        </div>
+        <figcaption>
+          <h3>Health Sciences Custom Merchandise</h3>
+          <p class="card-meta"><span class="meta-category">merchandise design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed custom merchandise graphics for the College of Health Sciences, featuring a distinctive Nursing Sharks concept. The layout balances bold typography with thematic graphic elements created specifically for screen-printed apparel.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="POSTERS" data-id="poster-six">
+        <div class="card-images">
+          <img src="images/7.png" alt="Logo design project">
+           <img src="images/8.png" alt="Logo design project">
+          <img src="images/6 (1).png" alt="Logo design project">
+          <img src="images/2 (2) copy.png" alt="Logo design project">         
+        </div>
+        <figcaption>
+          <h3>Merchandise Marketing Poster</h3>
+          <p class="card-meta"><span class="meta-category">Poster design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">A sleek marketing poster designed for Special Life Source to showcase their custom sports inspired trucker hats. Set against a high energy arena backdrop, the visual highlights the product's vibrant crest embroidery and street style aesthetic, creating a compelling showcase tailored for both digital promotion and physical displays.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="MERCHANDISE" data-id="Merchandise-five">
+        <div class="card-images">
+          <img src="images/elem shirt.png" alt="Merchandise design project">
+          <img src="images/elem shirt mu.png" alt="Merchandise design project">
+        </div>
+        <figcaption>
+          <h3>Elementary School Spirit Wear</h3>
+          <p class="card-meta"><span class="meta-category">merchandise design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed custom spirit wear apparel for an elementary school community. The design features classic collegiate typography ("WE WERE FIRST") and school mascot branding, created for school staff, teachers, and parents to wear for school events and daily wear.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="POSTERS" data-id="poster-seven">
+        <div class="card-images">
+          <img src="images/hiid.png" alt="Poster design project">
+           <img src="images/2 (2).png" alt="Poster design project">
+          <img src="images/4.png" alt="Poster design project">
+        </div>
+        <figcaption>
+          <h3>Hoodie Marketing Poster</h3>
+          <p class="card-meta"><span class="meta-category">Poster design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">A dynamic streetwear marketing poster to showcase their signature graphic hoodie. Set against a high-contrast urban crowd background, the design combines bold hero typography, playful speech bubbles highlighting product comfort, and an e-commerce store link—delivering a compelling layout engineered for digital promotion and social media marketing.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="SOCIAL MEDIA ASSETS" data-id="social-media-asset-two">
+        <div class="card-images">
+          <img src="images/eSport asset.png" alt="Social media asset design project">
+        </div>
+        <figcaption>
+          <h3>eSPort Media Asset</h3>
+          <p class="card-meta"><span class="meta-category">Social media asset design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed custom social media graphics for a college eSports tournament. Bringing a sleek, competitive energy to the event's promotional campaign.</p>
+        </figcaption>
+      </figure>  
+      
+      <figure class="card" data-category="SOCIAL MEDIA ASSETS" data-id="social-media-asset-three">
+        <div class="card-images">
+          <img src="images/opening week asset .png" alt="Social media asset design project">
+          <img src="images/opening week asset 2.png" alt="Social media asset design project">
+        </div>
+        <figcaption>
+          <h3>Schedule of Events</h3>
+          <p class="card-meta"><span class="meta-category">Social media asset design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed a series of informational social media graphics for campus event announcements. The visuals cover event schedules, attendance details, daily itineraries, and essential guidelines</p>
+        </figcaption>
+      </figure>   
+      
+      <figure class="card" data-category="MERCHANDISE" data-id="Merchandise-five">
+        <div class="card-images">
+          <img src="images/smiles.png" alt="Merchandise design project">
+          <img src="images/5.png" alt="Merchandise design project">
+          <img src="images/smiles3.png" alt="Merchandise design project">
+        </div>
+        <figcaption>
+          <h3>School Shirt and Mug Merchandise Design</h3>
+          <p class="card-meta"><span class="meta-category">merchandise design</span> · <span class="meta-year">2025</span></p>
+          <p class="card-desc">Designed custom merchandise graphics for "Miles of Smiles" Daycare Preschool Center, featuring branded artwork for t-shirts and ceramic mugs. The layouts feature playful custom typography and a vibrant color palette tailored for school merchandise, uniform wear, and promotional keepsakes.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="card" data-category="MERCHANDISE" data-id="Merchandise-five">
+        <div class="card-images">
+          <img src="images/ID and Lanyard.png" alt="Merchandise design project">
+          <img src="images/ID and Lanyard 1.png" alt="Merchandise design project">
+          <img src="images/ID and Lanyard 2.png" alt="Merchandise design project">
+        </div>
+        <figcaption>
+          <h3>College Publication ID and Lanyard Design</h3>
+          <p class="card-meta"><span class="meta-category">merchandise design</span> · <span class="meta-year">2024</span></p>
+          <p class="card-desc">Designed a complete identification package concept for The Caduceus, the official student publication of the MSU-IIT College of Health Sciences. The proposal includes a custom printed lanyard and a dual-sided ID layout crafted to establish a cohesive, professional press identity for the members..</p>
+        </figcaption>
+      </figure>
+
+        <figure class="card" data-category="LOGOS" data-id="logo-four">
+        <div class="card-images">
+          <img src="images/house logo 2.png" alt="Logo design project">
+        </div>
+        <figcaption>
+          <h3>House Cheshire Logo</h3>
+          <p class="card-meta"><span class="meta-category">Logo design</span> · <span class="meta-year">2024</span></p>
+          <p class="card-desc">A custom house identity designed for the House Cheshire during the Patingpalak 2024 event. Conceptually built around the distinct characteristics and spirit of the house.</p>
+        </figcaption>
+      </figure>
+      
+    </div>
+
+  </section>
+
+
+  <div class="text-hover" data-text-hover="DRAFT &amp; HUE" aria-hidden="true"></div>
+
+  <footer class="site-footer">
+    <p>© 2026 Danielle Hynes Sutin</p>
+  </footer>
+
+<!-- Work Item Modal Popup -->
+  <div class="work-modal" id="workModal" aria-hidden="true">
+    <div class="work-modal-content">
+      <button class="work-modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      <div class="work-modal-body">
+        <div class="modal-slider">
+          <div class="modal-slides" id="modalSlides"></div>
+          <button type="button" class="modal-btn modal-btn--prev" id="modalPrev" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button type="button" class="modal-btn modal-btn--next" id="modalNext" aria-label="Next image">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <div class="modal-dots" id="modalDots"></div>
+        </div>
+        <div class="modal-info">
+          <h2 id="modalTitle"></h2>
+          <p class="meta-tag" id="modalMeta"></p>
+          <div class="modal-desc" id="modalDesc"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

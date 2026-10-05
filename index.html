@@ -3,128 +3,249 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jordan Cruz — Graphic Design & Illustration</title>
+  <title>Creative Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fredoka:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body>
+<body data-page="home">
+  <script>
+    // Applies saved accessibility preferences immediately, before the page paints,
+    // so returning visitors don't see a flash of the default (unstyled) look.
+    (function () {
+      try {
+        var prefs = JSON.parse(localStorage.getItem("a11yPrefs") || "{}");
+        var root = document.documentElement;
+        if (prefs.textSize && prefs.textSize !== "normal") root.setAttribute("data-textsize", prefs.textSize);
+        if (prefs.highContrast) root.classList.add("a11y-contrast");
+        if (prefs.reduceMotion) root.classList.add("a11y-reduce-motion");
+        if (prefs.underlineLinks) root.classList.add("a11y-underline");
+      } catch (err) { /* private browsing / storage blocked — just use the defaults */ }
 
-  <!-- ===== NAVIGATION ===== -->
-  <header class="site-header">
-    <a href="#top" class="logo">JC<span class="dot">.</span></a>
-    <nav class="nav">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+      // Opening screen: shown once per visit (add ?loader to the address to see it again).
+      // Skipped when the visitor prefers reduced motion.
+      try {
+        var html = document.documentElement;
+        var seen = sessionStorage.getItem("loaderSeen");
+        var forced = /[?&]loader(=|&|$)/.test(location.search);
+        var calm = (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || html.classList.contains("a11y-reduce-motion");
+        if ((!seen || forced) && !calm) html.classList.add("loader-on");
+      } catch (err) { /* storage blocked — no opening screen */ }
+    })();
+  </script>
+
+  <!-- ===== OPENING SCREEN (see section 11 in script.js) ===== -->
+  <div class="loader" id="loader" role="status" aria-label="Loading">
+    <span class="loader-glow loader-glow--green" aria-hidden="true"></span>
+    <span class="loader-glow loader-glow--blue" aria-hidden="true"></span>
+    <div class="flip-pill" id="loaderPill" aria-hidden="true">
+      <span class="flip-word" id="loaderWord"></span>
+    </div>
+  </div>
+
+  <!-- ===== FLOATING SIDEBAR NAV ===== -->
+  <nav class="dock" id="dock" aria-label="Primary">
+    <div class="dock-brand">
+      <a href="#top" class="dock-logo" aria-label="Home">
+        <img src="images/logo-icon.png" alt="Draft & Hue Studio">
+      </a>
+      <p class="dock-name">Danielle Hynes Sutin</p>
+      <p class="dock-handle">@draftnhue</p>
+    </div>
+
+    <div class="dock-socials">
+      <a href="https://www.instagram.com/draftnhue" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61593816549784" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+      <a href="https://www.fiverr.com/hynes_" target="_blank" rel="noopener" aria-label="Fiverr"><span class="fiverr-mark" aria-hidden="true">fi</span></a>
+    </div>
+
+    <hr class="dock-rule">
+
+    <ul class="dock-links">
+      <li><a href="#top" data-dock="home"><i class="ph ph-house"></i><span>Home</span></a></li>
+      <li><a href="work.html" data-dock="work"><i class="ph ph-briefcase"></i><span>Work</span></a></li>
+      <li><a href="services.html" data-dock="services"><i class="ph ph-squares-four"></i><span>Services</span></a></li>
+      <li><a href="about.html" data-dock="about"><i class="ph ph-user"></i><span>About</span></a></li>
+      <li><a href="contact.html" data-dock="contact"><i class="ph ph-envelope-simple"></i><span>Contact</span></a></li>
+    </ul>
+
+    <div class="dock-foot">
+      <button type="button" class="dock-a11y" id="a11yToggle" aria-haspopup="dialog" aria-expanded="false" aria-label="Accessibility settings">
+        <i class="ph ph-person-simple-circle"></i>
+      </button>
+      <p class="dock-copy">© 2026 Danielle Hynes Sutin. <br> All rights reserved.</p> 
+    </div>
+  </nav>
+
+  <!-- Mobile and tablet top bar: the floating sidebar hides below 960px and this takes its place -->
+  <header class="mobile-bar">
+    <a href="#top" class="mobile-bar-logo" aria-label="Home">
+      <img src="images/logo-icon.png" alt="Draft & Hue Studio">
+    </a>
+    <div class="mobile-bar-actions">
+      <button type="button" class="mobile-bar-a11y" id="a11yToggleMobile" aria-haspopup="dialog" aria-expanded="false" aria-label="Accessibility settings">
+        <i class="ph ph-person-simple-circle"></i>
+      </button>
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <i class="ph ph-list"></i>
+      </button>
+    </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero" id="top">
-    <div class="hero-text">
-      <p class="hero-label">Portfolio 2026</p>
-      <h1>I draw things<br>so brands<br><span class="highlight">don't have to.</span></h1>
-      <p class="hero-sub">Graphic design & illustration by Jordan Cruz — editorial covers, brand identity, and character art.</p>
-      <a href="#work" class="btn">See the work ↓</a>
+  <nav class="nav" id="mobileNav" aria-label="Mobile">
+    <ul>
+      <li><a href="#top" data-dock="home"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="work.html" data-dock="work"><i class="ph ph-briefcase"></i>Work</a></li>
+      <li><a href="services.html" data-dock="services"><i class="ph ph-squares-four"></i>Services</a></li>
+      <li><a href="about.html" data-dock="about"><i class="ph ph-user"></i>About</a></li>
+      <li><a href="contact.html" data-dock="contact"><i class="ph ph-envelope-simple"></i>Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== ACCESSIBILITY PANEL ===== -->
+  <div class="a11y-overlay" id="a11yOverlay" hidden></div>
+  <div class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Accessibility settings">
+    <div class="a11y-head">
+      <h2>Accessibility</h2>
+      <button type="button" class="a11y-close" id="a11yClose" aria-label="Close accessibility settings">
+        <i class="ph ph-x"></i>
+      </button>
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="scribble"></div>
-    </div>
-  </section>
 
-  <!-- ===== WORK / GALLERY ===== -->
-  <section class="work" id="work">
-    <div class="section-head">
-      <h2>Selected work</h2>
-      <p>A mix of client projects, editorial illustration, and personal studies.</p>
+    <p class="a11y-label">Text size</p>
+    <div class="a11y-textsize" role="group" aria-label="Text size">
+      <button type="button" class="is-active" data-textsize="normal">A</button>
+      <button type="button" data-textsize="large">A+</button>
+      <button type="button" data-textsize="xlarge">A++</button>
     </div>
 
-    <div class="grid">
-      <!-- Each figure is one project card. Replace the image src and text with your own. -->
-      <figure class="card card--tall">
-        <img src="images/project-1.jpg" alt="Description of project 1">
-        <figcaption>
-          <h3>Project Title One</h3>
-          <p>Brand identity · 2026</p>
-        </figcaption>
-      </figure>
-
-      <figure class="card">
-        <img src="images/project-2.jpg" alt="Description of project 2">
-        <figcaption>
-          <h3>Project Title Two</h3>
-          <p>Editorial illustration · 2026</p>
-        </figcaption>
-      </figure>
-
-      <figure class="card">
-        <img src="images/project-3.jpg" alt="Description of project 3">
-        <figcaption>
-          <h3>Project Title Three</h3>
-          <p>Poster design · 2025</p>
-        </figcaption>
-      </figure>
-
-      <figure class="card card--tall">
-        <img src="images/project-4.jpg" alt="Description of project 4">
-        <figcaption>
-          <h3>Project Title Four</h3>
-          <p>Character design · 2025</p>
-        </figcaption>
-      </figure>
-
-      <figure class="card">
-        <img src="images/project-5.jpg" alt="Description of project 5">
-        <figcaption>
-          <h3>Project Title Five</h3>
-          <p>Packaging · 2025</p>
-        </figcaption>
-      </figure>
-
-      <figure class="card">
-        <img src="images/project-6.jpg" alt="Description of project 6">
-        <figcaption>
-          <h3>Project Title Six</h3>
-          <p>Personal study · 2025</p>
-        </figcaption>
-      </figure>
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">High contrast</p>
+        <p class="a11y-row-desc">Darker text, stronger edges</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleContrast" role="switch" aria-checked="false"><span></span></button>
     </div>
-  </section>
 
-  <!-- ===== ABOUT ===== -->
-  <section class="about" id="about">
-    <div class="about-photo">
-      <img src="images/profile.jpg" alt="Portrait of Jordan Cruz">
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">Reduce motion</p>
+        <p class="a11y-row-desc">No animation or drifting</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleMotion" role="switch" aria-checked="false"><span></span></button>
     </div>
-    <div class="about-text">
-      <h2>About me</h2>
-      <p>I'm a graphic designer and illustrator focused on bold, hand-built visuals — brand identities, editorial covers, and character work that feel drawn, not templated.</p>
-      <p>Currently studying design and always looking for new collaborations, freelance work, or just people who want to talk about type and color.</p>
-      <ul class="tools">
-        <li>Adobe Illustrator</li>
-        <li>Adobe Photoshop</li>
-        <li>Procreate</li>
-        <li>Figma</li>
-      </ul>
-    </div>
-  </section>
 
-  <!-- ===== CONTACT ===== -->
-  <section class="contact" id="contact">
-    <h2>Let's work together</h2>
-    <p>Open to freelance projects, internships, and collaborations.</p>
-    <a href="mailto:youremail@example.com" class="btn btn--light">youremail@example.com</a>
-    <div class="socials">
-      <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://behance.net/yourhandle" target="_blank" rel="noopener">Behance</a>
-      <a href="https://linkedin.com/in/yourhandle" target="_blank" rel="noopener">LinkedIn</a>
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">Underline links</p>
+        <p class="a11y-row-desc">Every link gets a line</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleUnderline" role="switch" aria-checked="false"><span></span></button>
     </div>
-  </section>
+
+    <button type="button" class="a11y-reset" id="a11yReset">
+      <i class="ph ph-arrow-counter-clockwise"></i> Reset to default
+    </button>
+  </div>
+
+
+  <!-- ===== HOME / LANDING ===== -->
+  <main class="home" id="top">
+    <header class="page-head page-head--cta">
+      <div>
+        <p class="eyebrow">Home</p>
+        <h1>From concept to creation.</h1>
+        <p class="page-sub"><b>Design is intelligence made visible.</b> Come see what's possible.</p>
+      </div>
+      <a href="contact.html" class="btn-cta">Get in touch <i class="ph ph-arrow-up-right"></i></a>
+    </header>
+
+    <div class="tools-bar">
+      <div class="tools-bar-label">
+        <span>Daily drivers</span>
+        <strong>Tools I work with</strong>
+      </div>
+      <div class="tools-marquee" aria-label="Tools I use">
+        <div class="tools-track">
+          <div class="tools-group">
+          <span class="tool-pill"><i class="ph ph-pen-nib"></i> Adobe Illustrator</span>
+          <span class="tool-pill"><i class="ph ph-image"></i> Adobe Photoshop</span>
+          <span class="tool-pill"><i class="ph ph-palette"></i> Canva</span>
+          <span class="tool-pill"><i class="ph ph-slack-logo"></i> Slack</span>
+          <span class="tool-pill"><i class="ph ph-code"></i> Google Apps Script</span>
+          <span class="tool-pill"><i class="ph ph-google-logo"></i> Google Workspace</span>
+          </div>
+          <div class="tools-group" aria-hidden="true">
+          <span class="tool-pill"><i class="ph ph-pen-nib"></i> Adobe Illustrator</span>
+          <span class="tool-pill"><i class="ph ph-image"></i> Adobe Photoshop</span>
+          <span class="tool-pill"><i class="ph ph-palette"></i> Canva</span>
+          <span class="tool-pill"><i class="ph ph-slack-logo"></i> Slack</span>
+          <span class="tool-pill"><i class="ph ph-code"></i> Google Apps Script</span>
+          <span class="tool-pill"><i class="ph ph-google-logo"></i> Google Workspace</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bento-shell">
+      <div class="bento">
+
+        <!-- Projects: the reel of pictures slides up on hover / keyboard focus -->
+        <a href="work.html" class="bento-card proj-card span-7">
+          <div class="proj-text">
+            <div class="bento-head"><span class="chip"><i class="ph ph-folder-open"></i></span><h2>Projects</h2></div>
+            <p class="bento-desc">Visuals That Stand Out.</p>
+          </div>
+          <div class="proj-preview" aria-hidden="true">
+            <div class="reel">
+              <img src="images/patingpalak logo no bg.png" alt="">
+              <img src="images/CAPSTONE PROJECT POSTER.png" alt="">
+              <img src="images/bc.png" alt="">
+              <img src="images/d2 poster.jpg" alt="">
+              <img src="images/editgo temp.png" alt="">
+            </div>
+          </div>
+        </a>
+
+        <a href="about.html" class="bento-card span-5">
+          <div class="bento-head"><span class="chip"><i class="ph ph-user"></i></span><h2>About</h2></div>
+          <p class="bento-desc">Who I am and how I work.</p>
+          <img class="about-pic" src="images/2x2.jpeg" alt="Portrait of Danielle Hynes Sutin">
+        </a>
+
+        <a href="services.html" class="bento-card span-5">
+          <div class="bento-head"><span class="chip"><i class="ph ph-squares-four"></i></span><h2>Services</h2></div>
+          <p class="bento-desc">What I design, built from the work you see here.</p>
+          <ul class="svc-list">
+          <li><span class="svc-ico"><i class="ph ph-seal"></i></span><div><strong>Logo &amp; Brand Identity</strong><span>Event logos, house identities and brand marks</span></div></li>
+          <li><span class="svc-ico"><i class="ph ph-newspaper-clipping"></i></span><div><strong>Posters</strong><span>Promotional and event posters for screen or print</span></div></li>
+          <li><span class="svc-ico"><i class="ph ph-frame-corners"></i></span><div><strong>Profile Picture Frames</strong><span>Campaign DP frames for a consistent presence</span></div></li>
+          <li><span class="svc-ico"><i class="ph ph-share-network"></i></span><div><strong>Social Media Assets</strong><span>Announcements, schedules and campaign posts</span></div></li>
+          <li><span class="svc-ico"><i class="ph ph-t-shirt"></i></span><div><strong>Merchandise</strong><span>Shirt, mug and ID/lanyard designs</span></div></li>
+          </ul>
+        </a>
+
+        <div class="bento-card span-7">
+          <a href="contact.html" class="bento-head"><span class="chip"><i class="ph ph-envelope-simple"></i></span><h2>Contact</h2></a>
+          <p class="bento-desc">Open to freelance projects, job positions and collaborations.</p>
+          <a href="mailto:daniellesutin@gmail.com" class="btn-cta btn-cta--wide" data-magnetic>daniellesutin@gmail.com <i class="ph ph-arrow-up-right"></i></a>
+          <div class="contact-icons">
+            <a href="https://www.instagram.com/draftnhue" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61593816549784" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+      <a href="https://www.fiverr.com/hynes_" target="_blank" rel="noopener" aria-label="Fiverr"><span class="fiverr-mark" aria-hidden="true">fi</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+
+  <div class="text-hover" data-text-hover="DRAFT &amp; HUE" aria-hidden="true"></div>
 
   <footer class="site-footer">
-    <p>© 2026 Jordan Cruz. Built by hand.</p>
+    <p>© 2026 Danielle Hynes Sutin</p>
   </footer>
 
   <script src="script.js"></script>

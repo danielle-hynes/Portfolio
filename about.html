@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Draft &amp; Hue Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fredoka:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body data-page="about">
+  <script>
+    // Applies saved accessibility preferences immediately, before the page paints,
+    // so returning visitors don't see a flash of the default (unstyled) look.
+    (function () {
+      try {
+        var prefs = JSON.parse(localStorage.getItem("a11yPrefs") || "{}");
+        var root = document.documentElement;
+        if (prefs.textSize && prefs.textSize !== "normal") root.setAttribute("data-textsize", prefs.textSize);
+        if (prefs.highContrast) root.classList.add("a11y-contrast");
+        if (prefs.reduceMotion) root.classList.add("a11y-reduce-motion");
+        if (prefs.underlineLinks) root.classList.add("a11y-underline");
+      } catch (err) { /* private browsing / storage blocked — just use the defaults */ }
+
+      // Opening screen: shown once per visit (add ?loader to the address to see it again).
+      // Skipped when the visitor prefers reduced motion.
+      try {
+        var html = document.documentElement;
+        var seen = sessionStorage.getItem("loaderSeen");
+        var forced = /[?&]loader(=|&|$)/.test(location.search);
+        var calm = (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) || html.classList.contains("a11y-reduce-motion");
+        if ((!seen || forced) && !calm) html.classList.add("loader-on");
+      } catch (err) { /* storage blocked — no opening screen */ }
+    })();
+  </script>
+
+  <!-- ===== OPENING SCREEN (see section 11 in script.js) ===== -->
+  <div class="loader" id="loader" role="status" aria-label="Loading">
+    <span class="loader-glow loader-glow--green" aria-hidden="true"></span>
+    <span class="loader-glow loader-glow--blue" aria-hidden="true"></span>
+    <div class="flip-pill" id="loaderPill" aria-hidden="true">
+      <span class="flip-word" id="loaderWord"></span>
+    </div>
+  </div>
+
+  <!-- ===== FLOATING SIDEBAR NAV ===== -->
+  <nav class="dock" id="dock" aria-label="Primary">
+    <div class="dock-brand">
+      <a href="index.html" class="dock-logo" aria-label="Home">
+        <img src="images/logo-icon.png" alt="Draft & Hue Studio">
+      </a>
+      <p class="dock-name">Danielle Hynes Sutin</p>
+      <p class="dock-handle">@draftnhue</p>
+    </div>
+
+    <div class="dock-socials">
+      <a href="https://www.instagram.com/draftnhue" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61593816549784" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
+      <a href="https://www.fiverr.com/hynes_" target="_blank" rel="noopener" aria-label="Fiverr"><span class="fiverr-mark" aria-hidden="true">fi</span></a>
+    </div>
+
+    <hr class="dock-rule">
+
+    <ul class="dock-links">
+      <li><a href="index.html" data-dock="home"><i class="ph ph-house"></i><span>Home</span></a></li>
+      <li><a href="work.html" data-dock="work"><i class="ph ph-briefcase"></i><span>Work</span></a></li>
+      <li><a href="services.html" data-dock="services"><i class="ph ph-squares-four"></i><span>Services</span></a></li>
+      <li><a href="about.html" data-dock="about"><i class="ph ph-user"></i><span>About</span></a></li>
+      <li><a href="contact.html" data-dock="contact"><i class="ph ph-envelope-simple"></i><span>Contact</span></a></li>
+    </ul>
+
+    <div class="dock-foot">
+      <button type="button" class="dock-a11y" id="a11yToggle" aria-haspopup="dialog" aria-expanded="false" aria-label="Accessibility settings">
+        <i class="ph ph-person-simple-circle"></i>
+      </button>
+      <p class="dock-copy">© 2026 Danielle Hynes Sutin. <br> All rights reserved.</p> 
+    </div>
+  </nav>
+
+  <!-- Mobile and tablet top bar: the floating sidebar hides below 960px and this takes its place -->
+  <header class="mobile-bar">
+    <a href="index.html" class="mobile-bar-logo" aria-label="Home">
+      <img src="images/logo-icon.png" alt="Draft & Hue Studio">
+    </a>
+    <div class="mobile-bar-actions">
+      <button type="button" class="mobile-bar-a11y" id="a11yToggleMobile" aria-haspopup="dialog" aria-expanded="false" aria-label="Accessibility settings">
+        <i class="ph ph-person-simple-circle"></i>
+      </button>
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+        <i class="ph ph-list"></i>
+      </button>
+    </div>
+  </header>
+
+  <nav class="nav" id="mobileNav" aria-label="Mobile">
+    <ul>
+      <li><a href="index.html" data-dock="home"><i class="ph ph-house"></i>Home</a></li>
+      <li><a href="work.html" data-dock="work"><i class="ph ph-briefcase"></i>Work</a></li>
+      <li><a href="services.html" data-dock="services"><i class="ph ph-squares-four"></i>Services</a></li>
+      <li><a href="about.html" data-dock="about"><i class="ph ph-user"></i>About</a></li>
+      <li><a href="contact.html" data-dock="contact"><i class="ph ph-envelope-simple"></i>Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== ACCESSIBILITY PANEL ===== -->
+  <div class="a11y-overlay" id="a11yOverlay" hidden></div>
+  <div class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Accessibility settings">
+    <div class="a11y-head">
+      <h2>Accessibility</h2>
+      <button type="button" class="a11y-close" id="a11yClose" aria-label="Close accessibility settings">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+
+    <p class="a11y-label">Text size</p>
+    <div class="a11y-textsize" role="group" aria-label="Text size">
+      <button type="button" class="is-active" data-textsize="normal">A</button>
+      <button type="button" data-textsize="large">A+</button>
+      <button type="button" data-textsize="xlarge">A++</button>
+    </div>
+
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">High contrast</p>
+        <p class="a11y-row-desc">Darker text, stronger edges</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleContrast" role="switch" aria-checked="false"><span></span></button>
+    </div>
+
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">Reduce motion</p>
+        <p class="a11y-row-desc">No animation or drifting</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleMotion" role="switch" aria-checked="false"><span></span></button>
+    </div>
+
+    <div class="a11y-row">
+      <div>
+        <p class="a11y-row-title">Underline links</p>
+        <p class="a11y-row-desc">Every link gets a line</p>
+      </div>
+      <button type="button" class="a11y-switch" id="toggleUnderline" role="switch" aria-checked="false"><span></span></button>
+    </div>
+
+    <button type="button" class="a11y-reset" id="a11yReset">
+      <i class="ph ph-arrow-counter-clockwise"></i> Reset to default
+    </button>
+  </div>
+
+
+  <!-- ===== ABOUT PAGE ===== -->
+  <main class="page" id="top">
+    <header class="page-head">
+      <p class="eyebrow">About</p>
+      <h1>Hi, I'm Danielle.</h1>
+    </header>
+
+    <div class="about-hero">
+      <div class="about-hero-text">
+        <p>I'm a <b> graphic designer, layout artist, and illustrator </b> focused on bold, hand-built visuals—from comprehensive brand systems and print publications to custom merchandise and visual storytelling assets that feel drawn, not templated.</p>
+        <p>I've designed brand assets, apparel graphics, and marketing materials for clients around the world, taking each project from first concept to print-ready files.</p>
+        <p>Currently studying design and always looking for new collaborations, freelance work, or just people who want to talk about design and color.</p>
+      </div>
+      <img class="about-hero-pic" src="images/2x2.jpeg" alt="Portrait of Danielle Hynes Sutin">
+    </div>
+
+    <div class="about-block">
+      <h2>Skills &amp; Tools</h2>
+      <div class="skill-grid">
+      <article class="skill-card">
+        <h3>Design</h3>
+        <ul class="tags"><li>Logo design</li><li>Brand identity</li><li>Posters</li><li>Social media assets</li><li>DP frames</li><li>Merchandise</li><li>Layout</li><li>Illustration</li></ul>
+      </article>
+      <article class="skill-card">
+        <h3>Tools</h3>
+        <ul class="tags"><li>Adobe Illustrator</li><li>Adobe Photoshop</li><li>Canva</li><li>Google Workspace</li><li>Google Apps Script</li><li>Slack</li></ul>
+      </article>
+      <article class="skill-card">
+        <h3>Languages</h3>
+        <ul class="tags"><li>Filipino</li><li>English</li><li>Bisaya</li></ul>
+      </article>
+      </div>
+    </div>
+
+    <div class="about-block">
+      <h2>Experience</h2>
+      <ol class="timeline">
+      <li class="t-item">
+        <span class="t-year">2025</span>
+        <div class="t-card">
+          <h3>Graphic Designer</h3>
+          <p class="t-org">at Fiverr</p>
+          <p class="t-date">September 2023 – October 2025</p>
+          <p class="t-text">Designed custom brand assets, apparel graphics, and marketing materials for clients around the world.</p>
+            <p class="t-text">Managed each project from concept to print-ready files and kept a 5-star rating.</p>
+        </div>
+      </li>
+      <li class="t-item">
+        <span class="t-year">2024</span>
+        <div class="t-card">
+          <h3>Product Specialist</h3>
+          <p class="t-org">at eBay, Abtra</p>
+          <p class="t-date">January 2024 – May 2024</p>
+          <p class="t-text">Sourced products and researched competitors on eBay for machinery parts, and made sure every listing was accurate and appealing.</p>
+        </div>
+      </li>
+      <li class="t-item">
+        <span class="t-year">2021</span>
+        <div class="t-card">
+          <h3>Freelance 3D Annotator</h3>
+          <p class="t-org">at Remotask</p>
+          <p class="t-date">May 2021 – July 2021</p>
+          <p class="t-text">Annotated 3D objects and scenes, including LiDAR point clouds and spatial data used to train autonomous AI models, working with minimal supervision.</p>
+        </div>
+      </li>
+      </ol>
+    </div>
+
+    <div class="about-block">
+      <h2>Education</h2>
+      <div class="edu-grid">
+      <article class="edu-card">
+        <h3>Mindanao State University - Iligan Institute of Technology</h3>
+        <p class="edu-level">Tertiary</p>
+        <ul class="svc-checks">
+          <li><i class="ph ph-check-circle"></i><span>Official College Student Publication Member</span></li>
+          <li><i class="ph ph-check-circle"></i><span>Executive Council Publication Committee Associate</span></li>
+          <li><i class="ph ph-check-circle"></i><span>Dean's Lister and Chancellor's Lister</span></li>
+        </ul>
+      </article>
+      <article class="edu-card">
+        <h3>Iligan Medical Center College</h3>
+        <p class="edu-level">Secondary</p>
+        <ul class="svc-checks">
+          <li><i class="ph ph-check-circle"></i><span>Graduated with High Honours</span></li>
+          <li><i class="ph ph-check-circle"></i><span>School Leadership Award</span></li>
+          <li><i class="ph ph-check-circle"></i><span>Best in Capstone Research</span></li>
+        </ul>
+      </article>
+      </div>
+    </div>
+
+    <div class="svc-cta">
+      <div>
+        <h2>Want to work together?</h2>
+        <p>Tell me what you have in mind and we'll start with a draft.</p>
+      </div>
+      <a href="contact.html" class="btn-cta">Get in touch <i class="ph ph-arrow-up-right"></i></a>
+    </div>
+  </main>
+  <div class="text-hover" data-text-hover="DRAFT &amp; HUE" aria-hidden="true"></div>
+
+  <footer class="site-footer">
+    <p>© 2026 Danielle Hynes Sutin</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
